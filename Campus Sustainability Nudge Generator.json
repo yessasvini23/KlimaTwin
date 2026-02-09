@@ -1,0 +1,185 @@
+{
+  "name": "Campus Sustainability Nudge Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "Building_Name",
+              "value": "Hostel 3",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "Building_Type",
+              "value": "Residential",
+              "type": "string"
+            },
+            {
+              "id": "id-3",
+              "name": "Resource_Type",
+              "value": "Electricity",
+              "type": "string"
+            },
+            {
+              "id": "id-4",
+              "name": "Current_Status",
+              "value": 15,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "85e7bd94-b91f-45d5-81f4-390f315626f0",
+      "name": "Workflow Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Building Name: {{ $json.Building_Name }}\nBuilding Type: {{ $json.Building_Type }}\nResource Type: {{ $json.Resource_Type }}\nCurrent Status: {{ $json.Current_Status }}% above baseline\n\nGenerate one short nudge students can act on immediately. Also include a realistic short-term impact range.\n\nIf any required input is missing or unclear, respond exactly with:\nNudge_Message: Data insufficient to generate a reliable nudge.\nEstimated_Impact: N/A",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are KlimaTwin, an AI assistant for campus sustainability automation. Your task is to generate short, practical nudges for university students based ONLY on the provided data. Rules: Maximum 2 sentences. Be specific and actionable. Focus on actions that can be taken THIS WEEK. Do NOT use emotional language, guilt, or long-term climate messaging. Do NOT mention AI, carbon footprint, or global warming. Do NOT exaggerate impact."
+        }
+      },
+      "id": "60755a59-b428-4a15-804c-0f715030877e",
+      "name": "Generate Sustainability Nudge",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        704,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "id": "3bb56744-3ca5-40fa-98b3-7ddddcb696c4",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        712,
+        528
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "jRsjopNEzlIH81Gj",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"Nudge_Message\": \"Short, actionable nudge message for students (max 2 sentences)\",\n\t\"Estimated_Impact\": \"Realistic short-term impact range\"\n}"
+      },
+      "id": "7ea10ea6-6685-4ed6-ab7d-6232c6c8f43b",
+      "name": "Structured Output Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        840,
+        528
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "396f4073-009b-4e64-804b-402a28bc6614",
+      "name": "When to Run",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        256,
+        304
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When to Run": {
+      "main": [
+        [
+          {
+            "node": "Workflow Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow Configuration": {
+      "main": [
+        [
+          {
+            "node": "Generate Sustainability Nudge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generate Sustainability Nudge",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Generate Sustainability Nudge",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "010676fe-36de-42ab-853e-4a1c3565a08a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7439e505fdb8575fa2a4f7d595351e451e78c7520d267fd056d449976dc70d51"
+  },
+  "id": "x72sLK9hLNUxNTPWj3EfQ",
+  "tags": []
+}
