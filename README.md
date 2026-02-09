@@ -94,12 +94,12 @@ For hackathon feasibility, KlimaTwin:
 ## 🛠️ Tech Stack
 
 - **Languages:** Python, JavaScript  
-- **Backend:** FastAPI / Node.js  
+- **Backend:** FastAPI, Node.js  
 - **Frontend:** React  
 - **AI/ML:** PyTorch, Scikit-learn  
 - **Edge AI:** TinyML concepts  
 - **Data:** Time-series databases  
-- **Deployment:** Containerized (Docker-ready)  
+- **Deployment:** Docker (containerized)  
 
 ---
 
@@ -145,9 +145,16 @@ For hackathon feasibility, KlimaTwin:
 │   └── diagrams/
 └── README.md
 
-📽️ Demo
-Demo Video: https://youtu.be/mbN-pg-v1AU
-Live Prototype: https://greenwave-campus-pulse.lovable.app/
+
+
+
+🎥 Demo Video:
+https://youtu.be/mbN-pg-v1AU
+
+
+🌐 Live Prototype:
+https://greenwave-campus-pulse.lovable.app/
+
 
 👥 Team
 Team Name: KlimaTwin
@@ -159,3 +166,4 @@ This project is developed for hackathon and research purposes.
 🏁 Final Note
 KlimaTwin is designed as a pilot-ready sustainability system, not just a demo.
 It prioritizes measurable impact, feasibility, and behavioral change over abstract climate metrics.
+
